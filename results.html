@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados del Test Vocacional</title>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f2f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #003A6F;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            color: #003A6F;
+            margin-bottom: 8px;
+        }
+
+        .career-box {
+            font-size: 18px;
+            font-weight: bold;
+            background: #ffb84d;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .btns {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            background: #003A6F;
+            color: white;
+            padding: 12px 18px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #002544;
+        }
+
+        .btn-orange {
+            background: #F39200;
+        }
+
+        .btn-orange:hover {
+            background: #c27400;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    Resultados del Test Vocacional UNAD
+</header>
+
+<div class="container">
+
+    <!-- TARJETA 1 -->
+    <div class="card">
+        <h2>Tu área de mayor afinidad es:</h2>
+        <div id="bestArea" class="career-box"></div>
+
+        <h2>Carreras UNAD recomendadas:</h2>
+        <ul id="careerList"></ul>
+
+        <div class="btns">
+            <a href="index.html" class="btn">Volver al inicio</a>
+            <a href="https://estudios.unad.edu.co/carreras" class="btn btn-orange" target="_blank">
+                Ver programas UNAD
+            </a>
+        </div>
+    </div>
+
+    <!-- TARJETA GRAFICO BARRAS -->
+    <div class="card">
+        <h2>Gráfico de Barras – Puntuaciones por Área</h2>
+        <canvas id="barChart"></canvas>
+    </div>
+
+    <!-- TARJETA GRAFICO RADAR -->
+    <div class="card">
+        <h2>Gráfico Tipo Araña (Radar)</h2>
+        <canvas id="radarChart"></canvas>
+    </div>
+</div>
+
+<script>
+    // Recuperar resultados guardados en localStorage
+    const data = JSON.parse(localStorage.getItem("results"));
+    const scores = data.scores;
+    const bestArea = data.bestArea;
+
+    // Mostrar área principal
+    document.getElementById("bestArea").innerText = bestArea;
+
+    // Lista de carreras recomendadas
+    const areasToCareers = {
+        "Artes": ["Música", "Diseño Industrial", "Comunicación Social", "Ingeniería Multimedia"],
+        "Ingeniería": ["Ingeniería de Sistemas", "Ingeniería Electrónica", "Ingeniería Industrial", "Telecomunicaciones"],
+        "Sociales": ["Psicología", "Sociología", "Ciencia Política", "Gestión Deportiva"],
+        "Educación": ["Licenciatura en Educación Infantil", "Lenguas Extranjeras", "Matemáticas"],
+        "Administración": ["Administración de Empresas", "Economía", "Negocios Internacionales"],
+        "CienciasNaturales": ["Agronomía", "Ingeniería Ambiental", "Zootecnia"],
+        "Comunicacion": ["Comunicación Social", "Ingeniería Multimedia", "Historia"]
+    };
+
+    const careerList = document.getElementById("careerList");
+    areasToCareers[bestArea].slice(0, 3).forEach(c => {
+        let li = document.createElement("li");
+        li.textContent = c;
+        careerList.appendChild(li);
+    });
+
+    // ============================
+    //        GRAFICO DE BARRAS
+    // ============================
+    const ctxBar = document.getElementById("barChart");
+
+    new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(scores),
+            datasets: [{
+                label: "Puntaje",
+                data: Object.values(scores),
+                borderWidth: 1
+            }]
+        }
+    });
+
+    // ============================
+    //        GRAFICO RADAR
+    // ============================
+    const ctxRadar = document.getElementById("radarChart");
+
+    new Chart(ctxRadar, {
+        type: 'radar',
+        data: {
+            labels: Object.keys(scores),
+            datasets: [{
+                label: "Perfil Vocacional",
+                data: Object.values(scores),
+                borderWidth: 2
+            }]
+        }
+    });
+</script>
+
+</body>
+</html>
