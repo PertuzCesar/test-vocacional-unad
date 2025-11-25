@@ -144,11 +144,11 @@ function loadQuestion() {
             <p>${q.text}</p>
 
             <div class="options">
-                <label><input type="radio" name="answer" value="1"> Muy en desacuerdo</label>
-                <label><input type="radio" name="answer" value="2"> En desacuerdo</label>
-                <label><input type="radio" name="answer" value="3"> Neutro</label>
-                <label><input type="radio" name="answer" value="4"> De acuerdo</label>
-                <label><input type="radio" name="answer" value="5"> Muy de acuerdo</label>
+                <label><input type="radio" name="answer" value="1"> Nunca</label>
+                <label><input type="radio" name="answer" value="2"> Casi Nunca</label>
+                <label><input type="radio" name="answer" value="3"> Aveces</label>
+                <label><input type="radio" name="answer" value="4"> Casi Siempre</label>
+                <label><input type="radio" name="answer" value="5"> Siempre</label>
             </div>
         </div>
     `;
